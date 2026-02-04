@@ -1,1 +1,15 @@
 
+- hosts: wildfly
+  become: yes
+  tasks:
+    - name: Backup old app
+      copy:
+        src: /opt/apps/current.war
+        dest: /opt/apps/backup.war
+        remote_src: yes
+      ignore_errors: yes
+
+    - name: Deploy new WAR
+      copy:
+        src: target/sample.war
+        dest: /opt/wildfly/standalone/deployments/sample.war
