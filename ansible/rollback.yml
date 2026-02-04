@@ -2,14 +2,12 @@
   become: yes
   tasks:
 
-    - name: Rollback WAR
+    - name: Restore backup WAR
       copy:
         src: /opt/apps/backup.war
         dest: /opt/wildfly/standalone/deployments/sample.war
         remote_src: yes
+      ignore_errors: yes
 
     - name: Restart WildFly
-      service:
-        name: wildfly
-        state: restarted
-
+      shell: /opt/wildfly/bin/standalone.sh -b 0.0.0.0 &
