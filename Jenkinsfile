@@ -12,7 +12,7 @@ pipeline {
 
     environment {
         APP_URL = "http://13.203.196.11:8080/sampleapp/  & http://15.207.55.122:8080/sampleapp/"
-        EMAIL_TO = "santhoshannadurai255@gmail.com"
+        EMAIL_TO = "santhoshannadurai6256@gmail.com"
     }
 
     stages {
