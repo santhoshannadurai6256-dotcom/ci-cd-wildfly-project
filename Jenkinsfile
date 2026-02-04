@@ -17,7 +17,7 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        sh 'ansible-playbook -i ansible/inventory.ini ansible/deploy.yml'
+        sh 'ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ansible/inventory.ini ansible/deploy.yml'
       }
     }
   }
@@ -32,7 +32,8 @@ pipeline {
     }
 
     failure {
-      sh 'ansible-playbook -i ansible/inventory.ini ansible/deploy.yml'
+      sh 'ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ansible/inventory.ini ansible/rollback.yml'
+
       emailext(
         subject: "FAILED: Deployment Rolled Back",
         body: "Deployment failed. Rollback executed.",
