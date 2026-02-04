@@ -9,11 +9,7 @@ import java.io.IOException;
 @WebServlet("/hello")
 public class HelloServlet extends HttpServlet {
 
-    protected void doGet(HttpServletRequest req, HttpServletResponse res)
-            throws IOException {
-
-        res.setContentType("text/html");
-        res.getWriter().println("<h1>Hello from WildFly!</h1>");
-        res.getWriter().println("<p>Deployed via Jenkins + Ansible 🚀</p>");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.getWriter().println("Hello from WildFly CI/CD Pipeline!");
     }
 }
