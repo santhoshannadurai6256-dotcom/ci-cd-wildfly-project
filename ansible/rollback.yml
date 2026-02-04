@@ -1,0 +1,17 @@
+---
+- name: Rollback WAR Deployment
+  hosts: wildfly
+  become: yes
+
+  vars:
+    deploy_path: /opt/wildfly/standalone/deployments/
+    backup_path: /opt/backup/
+
+  tasks:
+    - name: Restore last WAR
+      shell: cp {{ backup_path }}/sampleapp_*.war {{ deploy_path }}/sampleapp.war
+
+    - name: Restart WildFly
+      service:
+        name: wildfly
+        state: restarted
