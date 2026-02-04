@@ -1,0 +1,32 @@
+---
+- name: Deploy WAR to WildFly Servers
+  hosts: wildfly
+  become: yes
+  vars:
+    war_file: /var/lib/jenkins/workspace/wildfly-cicd/target/sampleapp.war
+    deploy_path: /opt/wildfly/standalone/deployments/
+    backup_path: /opt/backup/
+
+  tasks:
+
+    - name: Create backup directory
+      file:
+        path: "{{ backup_path }}"
+        state: directory
+
+    - name: Backup old WAR
+      copy:
+        src: "{{ deploy_path }}/sampleapp.war"
+        dest: "{{ backup_path }}/sampleapp_{{ ansible_date_time.date }}.war"
+        remote_src: yes
+      ignore_errors: yes
+
+    - name: Copy new WAR
+      copy:
+        src: "{{ war_file }}"
+        dest: "{{ deploy_path }}/sampleapp.war"
+
+    - name: Restart WildFly
+      service:
+        name: wildfly
+        state: restarted
