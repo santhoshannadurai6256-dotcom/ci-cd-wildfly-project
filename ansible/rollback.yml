@@ -1,8 +1,15 @@
 - hosts: wildfly
   become: yes
   tasks:
+
     - name: Rollback WAR
       copy:
         src: /opt/apps/backup.war
         dest: /opt/wildfly/standalone/deployments/sample.war
         remote_src: yes
+
+    - name: Restart WildFly
+      service:
+        name: wildfly
+        state: restarted
+
