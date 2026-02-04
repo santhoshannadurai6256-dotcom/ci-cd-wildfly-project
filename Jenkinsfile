@@ -5,11 +5,16 @@ pipeline {
         maven 'maven-3'
     }
 
+    options {
+        skipDefaultCheckout(true)
+    }
+
     stages {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/santhoshannadurai6256-dotcom/ci-cd-wildfly-project.git'
+                git branch: 'main',
+                    url: 'https://github.com/santhoshannadurai6256-dotcom/ci-cd-wildfly-project.git'
             }
         }
 
@@ -21,15 +26,14 @@ pipeline {
 
         stage('Deploy using Ansible') {
             steps {
-                sh '''
-                ansible-playbook -i ansible/inventory.ini ansible/deploy.yml
-                '''
+                sh 'ansible-playbook -i ansible/inventory.ini ansible/deploy.yml'
             }
         }
     }
 
     post {
         failure {
+            echo "Deployment failed, running rollback..."
             sh 'ansible-playbook -i ansible/inventory.ini ansible/rollback.yml'
         }
     }
