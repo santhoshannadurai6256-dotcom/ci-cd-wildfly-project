@@ -1,44 +1,36 @@
 pipeline {
-  agent any
+    agent any
 
-  stages {
-
-    stage('Terraform') {
-      steps {
-        sh 'cd terraform && terraform init && terraform apply -auto-approve'
-      }
+    tools {
+        maven 'Maven'
     }
 
-    stage('Build') {
-      steps {
-        sh 'cd app && mvn clean package'
-      }
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/yourusername/wildfly-cicd-project.git'
+            }
+        }
+
+        stage('Build WAR') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Deploy using Ansible') {
+            steps {
+                sh '''
+                ansible-playbook -i ansible/inventory.ini ansible/deploy.yml
+                '''
+            }
+        }
     }
 
-    stage('Deploy') {
-      steps {
-        sh 'ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ansible/inventory.ini ansible/deploy.yml'
-      }
+    post {
+        failure {
+            sh 'ansible-playbook -i ansible/inventory.ini ansible/rollback.yml'
+        }
     }
-  }
-
-  post {
-    success {
-      emailext(
-        subject: "SUCCESS: WildFly Deployment",
-        body: "Deployment completed successfully.",
-        to: "santhoshannadurai255@gmail.com"
-      )
-    }
-
-    failure {
-      sh 'ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ansible/inventory.ini ansible/rollback.yml'
-
-      emailext(
-        subject: "FAILED: Deployment Rolled Back",
-        body: "Deployment failed. Rollback executed.",
-        to: "santhoshannadurai255@gmail.com"
-      )
-    }
-  }
 }
