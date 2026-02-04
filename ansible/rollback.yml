@@ -1,4 +1,4 @@
-- hosts: wildfly
+- hosts: all
   become: yes
   tasks:
     - name: Rollback WAR
