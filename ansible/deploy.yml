@@ -2,7 +2,12 @@
   become: yes
   tasks:
 
-    - name: Create backup directory
+    - name: Ensure WildFly deployment directory exists
+      file:
+        path: /opt/wildfly/standalone/deployments
+        state: directory
+
+    - name: Ensure backup directory exists
       file:
         path: /opt/apps
         state: directory
@@ -20,7 +25,4 @@
         dest: /opt/wildfly/standalone/deployments/sample.war
 
     - name: Restart WildFly
-      service:
-        name: wildfly
-        state: restarted
-
+      shell: /opt/wildfly/bin/standalone.sh -b 0.0.0.0 &
