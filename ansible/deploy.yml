@@ -1,5 +1,5 @@
 
-- hosts: all
+- hosts: wildfly
   become: yes
   tasks:
     - name: Backup old app
