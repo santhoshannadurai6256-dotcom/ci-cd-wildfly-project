@@ -27,7 +27,7 @@ pipeline {
       emailext(
         subject: "SUCCESS: WildFly Deployment",
         body: "Deployment completed successfully.",
-        to: "yourmail@gmail.com"
+        to: "santhoshannadurai255@gmail.com"
       )
     }
 
@@ -36,7 +36,7 @@ pipeline {
       emailext(
         subject: "FAILED: Deployment Rolled Back",
         body: "Deployment failed. Rollback executed.",
-        to: "yourmail@gmail.com"
+        to: "santhoshannadurai255@gmail.com"
       )
     }
   }
