@@ -1,4 +1,4 @@
-1️⃣ Full README.md file (copy-paste into your GitHub repo)
+1️⃣ Full README.md file (copy-paste into your GitHub repo
 2️⃣ Professional Project Description for your Resume
 
 ✅ 1️⃣ Full README.md (copy-paste)
