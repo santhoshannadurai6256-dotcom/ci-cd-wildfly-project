@@ -5,7 +5,7 @@
 
   tasks:
     - name: Restore old WAR (if exists)
-      shell: cp /opt/backup/sample.war /opt/wildfly/standalone/deployments/sampleapp.war
+      shell: cp /opt/backup/sampleapp.war /opt/wildfly/standalone/deployments/sampleapp.war
       ignore_errors: yes
 
     - name: Restart WildFly
