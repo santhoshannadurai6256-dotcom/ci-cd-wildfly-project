@@ -15,7 +15,7 @@
 
     - name: Copy new WAR
       copy:
-        src: /var/lib/jenkins/workspace/ildfly-cicd/target/sampleapp-1.0.war
+        src: /var/lib/jenkins/workspace/wildfly-cicd/target/sampleapp-1.0.war
         dest: /opt/wildfly/standalone/deployments/sampleapp.war
 
     - name: Restart WildFly
